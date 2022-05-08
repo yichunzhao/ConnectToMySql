@@ -24,6 +24,10 @@ connecting to mySql database commands in a bash
 ```
 docker exec -it mysql bash
 
+login 
+
+mysql -u root -p
+
 and
 
 show databases;
