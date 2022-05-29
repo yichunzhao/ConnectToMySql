@@ -1,12 +1,12 @@
 package com.example.connecttomysql.entities;
 
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,19 +18,34 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 public class Book {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
+  private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @NotBlank
+  @Size(max = 1024, min = 1)
+  private String title;
 
-    private String title;
-    private YearMonth publishedTime;
+  @Positive private Integer pageNumber;
 
-    @ManyToMany(mappedBy = "books")
-    private Set<Author> authors = new HashSet<>();
+  @PastOrPresent private YearMonth publishedTime;
 
-    public void addBookAuthor(Author author){
-        Objects.requireNonNull(author);
-        authors.add(author);
+  @ManyToMany(mappedBy = "books")
+  private Set<Author> authors;
+
+  @Builder
+  public Book(String title, Integer pageNumber, YearMonth publishedTime) {
+    this.title = title;
+    this.pageNumber = pageNumber;
+    this.publishedTime = publishedTime;
+  }
+
+  public void addBookAuthor(Author author) {
+    Objects.requireNonNull(author);
+    if (Objects.isNull(authors)) {
+      authors = new HashSet<>();
     }
+    //authors.add(author);
+  }
 }
