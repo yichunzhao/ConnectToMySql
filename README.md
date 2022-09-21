@@ -19,20 +19,20 @@ MySQl server cannot recognize 'localhost' and port number. So you need to specif
 docker run --name mysql -e MYSQL_ROOT_PASSWORD=test -d -p 127.0.0.1:3306:3306 mysql:latest
 ```
 
-connecting to mySql database commands in a bash
+`-e`: configuring env. variables, like password; 
+
+`-d`: running the mysql in a background process; 
+
+`-p`: publishing or say exposing docker port to the external. 
+
+connecting to mySql database commands in a bash by `docker exec -it mysql bash`;
+
+login my sql database by `mysql -u root -p` and after login mySql database, some commands may useful for checking out database status.
 
 ```
-docker exec -it mysql bash
-
-login 
-
-mysql -u root -p
-
-and
-
 show databases;
 
-use databaseName
+use databaseName;
 
 show tables;
 ```
